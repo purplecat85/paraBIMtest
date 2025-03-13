@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__title__   = "rename views"
+__title__   = "add_fivd"
 __doc__     = """Version = 1.0
 Date    = 10.12.2024
 ________________________________________________________________
@@ -7,24 +7,24 @@ Description:
 Rename views in Revit using Find/Replace Logic.
 ________________________________________________________________
 How-To:
+-> Define renaming views in pycharm/vsc
 -> Click on the Button
 -> Select Views
--> Define Renaming Rules
--> Rename views
+-> And done. Views are renamed
 ________________________________________________________________
 Last Updates:
 - [10.12.2024] v1.0 Release
 ________________________________________________________________
 Author: Nimisha"""
 
-import pyrevit.forms
+
 # IMPORTS
 #==================================================
 from Autodesk.Revit.DB import *
 
 #.NET Imports
 import clr
-
+import pyrevit.forms
 from pyrevit.forms import select_views
 
 #from lib.Samples.FilteredElementCollector import view_types
@@ -46,7 +46,7 @@ doc    = __revit__.ActiveUIDocument.Document #type:Document
 # MAIN
 #==================================================
 
-# 1 Select Views
+# 1️⃣ Select Views
 
 # Get Views - Selected in ProjectBrowser
 sel_el_ids = uidoc.Selection.GetElementIds()
@@ -61,43 +61,43 @@ if not sel_views:
 if not sel_views:
     pyrevit.forms.alert('No Views Selected. Please Try Again', exitscript=True)
 
-# 2A Define Renaming Rules
-#prefix  = ''
-#find    = 'Copy '
-#replace = '0'
-#suffix  = ''
+# 2️⃣ Define Renaming Rules
+prefix  = ''
+find    = 'copy'
+replace = '_working_'
+suffix  = 'fivD'
 
 #2B define renaming rules (UI form)
 # https://revitpythonwrapper.readthedocs.io/en/latest/ui/forms.html #flexforms
-from rpw.ui.forms import (FlexForm, Label, TextBox, Separator, Button)
-components = [Label('Prefix:'),  TextBox('prefix'),
-              Label('Find:'),    TextBox('find'),
-              Label('Replace:'), TextBox('replace'),
-              Label('Suffix'),   TextBox('suffix'),
-              Separator(),       Button('Rename Views')]
+#from rpw.ui.forms import (FlexForm, Label, TextBox, Separator, Button)
+#components = [Label('Prefix:'),  TextBox('prefix'),
+             #Label('Find:'),    TextBox('find'),
+              #Label('Replace:'), TextBox('replace'),
+              #Label('Suffix'),   TextBox('suffix'),
+              #Separator(),       Button('Rename Views')]
 
-form = FlexForm('Title', components)
-form.show()
+#form = FlexForm('Title', components)
+#form.show()
 
-user_inputs = form.values
-prefix = user_inputs['prefix']
-find = user_inputs['find']
-replace = user_inputs['replace']
-suffix = user_inputs['suffix']
+#user_inputs = form.values
+#prefix = user_inputs['prefix']
+#find = user_inputs['find']
+#replace = user_inputs['replace']
+#suffix = user_inputs['suffix']
 
-#Start transactions to make changes in project
+# ▶Start transactions to make changes in project
 t = Transaction(doc, 'NG-Rename Views')
 
 t.Start()
 
 for View in sel_views:
 
-    #3 Create new View Name
+    #3️⃣ Create new View Name
     old_name = View.Name
     #new_name = old_name.replace(find, replace)
     new_name = prefix + old_name.replace(find, replace) + suffix
 
-    #4 Rename Views (Ensure unique view name)
+    #4️⃣ Rename Views (Ensure unique view name)
     for i in range(5):
      try:
         View.Name = new_name
@@ -108,5 +108,4 @@ for View in sel_views:
 
 t.Commit()
 
-print('-'*50)
 print('Done!')

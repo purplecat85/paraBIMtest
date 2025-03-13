@@ -1,5 +1,20 @@
 # -*- coding: utf-8 -*-
-__title__   = "Room tag - Center"
+__title__   = "Room tag - center"
+__doc__     = """Version = 1.0
+Date    = 10.12.2024
+________________________________________________________________
+Description:
+center rooms tags in revit
+________________________________________________________________
+How-To:
+-> Open a view
+-> Click on the Button
+-> And done. Rooms tags are centered
+________________________________________________________________
+Last Updates:
+- [10.12.2024] v1.0 Release
+________________________________________________________________
+Author: Nimisha"""
 
 # IMPORTS
 #==================================================
@@ -12,10 +27,12 @@ uidoc = __revit__.ActiveUIDocument
 app   = __revit__.Application
 
 # ELEMENTS
+#==================================================
 all_room_tags = FilteredElementCollector(doc, doc.ActiveView.Id)\
     .OfCategory(BuiltInCategory.OST_RoomTags).WhereElementIsNotElementType().ToElements()
 
 # CONTROLS
+#==================================================
 step = 2  # INTERNAL UNITS IN FEET
 
 
